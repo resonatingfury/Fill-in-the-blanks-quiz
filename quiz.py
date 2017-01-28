@@ -2,15 +2,17 @@
 currentQuestion = 1
 difficulty = ""
 numberOfTries = ""
-questionList = [["easy", "There are ____ states in the United States of America.", "____ J. ____ is the 45th president of the United States of America", 
+questionList = [["easy", "one + one = ____", "Follow along! A, B, C, ____, ____.", "Follow along! One, two, four, eight, ____, ____, ____."],
+                ["medium", "There are ____ states in the United States of America.", "____ J. ____ is the 45th president of the United States of America",
                  "The three American branches of government are: j____, e____, and l____."],
-               ["medium", "", "medium2", "medium3"],
-               ["hard", "hard1", "hard2", "hard3"]]
-answerKey = [["easy", "There are fifty states in the United States of America.", "Donald J. Trump is the 45th president of the United States of America", 
+                ["hard", "The square root of six hundred and seventy six is ____.", "Pi to the seventh decimal is ____.", "My three favorite foods are ____, ____, and ____."]]
+
+answerKey = [["easy", "one + one = two", "Follow along! A, B, C, D, E.", "Follow along! One, two, four, eight, sixteen, thirty two, sixty four."],
+             ["medium", "There are fifty states in the United States of America.", "Donald J. Trump is the 45th president of the United States of America",
               "The three American branches of government are: judicial, executive, and legislative."],
-            ["medium", "medium1", "medium2", "medium3"],
-            ["hard", "hard1", "hard2", "hard3"]]
-digitKey = [["50", "fifty"]]
+             ["hard", "The square root of six hundred and seventy six is twenty six.", "Pi to the seventh decimal is 3.1415926.", "My three favorite foods are ramen, ramen, and ramen."]]
+             
+digitKey = [["50", "fifty"], ["2", "two"], ["16", "sixteen"], ["26", "twenty six"], ["32", "thirty two"], ["64", "sixty four"]]
 
 # Welcome to the quiz. First, the parameters for our quiz's toughness.
 while True:
@@ -21,7 +23,7 @@ while True:
       print "Sorry, please try again, and type 'easy', 'medium' or 'hard' exactly."
 
 while True:
-    numberOfTries = raw_input("How many attempts would you like to have before failing the quiz?")
+    numberOfTries = raw_input("How many attempts would you like to have for each question before failing the quiz?")
     if numberOfTries.isdigit() and int(numberOfTries) > 0:
         if(int(numberOfTries) > 0):
             print "Great, " + numberOfTries + " tries."
@@ -71,10 +73,11 @@ def completeSentence(answerList, question):
     # keeps track of which of the user's answers we are currently using
     answerIndex = 0
     questionBreakdown = question.split(" ")
+    print answerList
     for x in questionBreakdown:
-        if x == '____':
+        if '____' in x:
             try:
-                questionBreakdown[questionIndex] = answerList[answerIndex]
+                questionBreakdown[questionIndex] = x.replace('____', answerList[answerIndex])
                 answerIndex += 1
             except:
                 break
@@ -84,6 +87,7 @@ def completeSentence(answerList, question):
 
 # checks to see if the user's answers are correct by filling the blanks and comparing it with the answer key
 def isCorrect(answerList, question):
+    #strips the list contents of extra spaces and replaces numbers with words if necessary
     answerList = [x.strip() for x in answerList]
     answerList = [numToWord(x) for x in answerList]
 
